@@ -15,7 +15,7 @@
 <!-- TOC end -->
 
 ## Introduction
-A Docker image containing a eDNA pipeline based on
+A Docker image containing a eDNA pipeline2 based on
 [QIIME2](https://qiime2.org/). The pipeline is controlled via flask GUI that runs
 in the users browser.   
 
