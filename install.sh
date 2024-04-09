@@ -9,11 +9,10 @@ grep "port" app.py
 chmod +x app.py
 
 echo "clone the main run scripts and env file"
-#git clone https://dpidave@bitbucket.org/dpi_data_analytics/snakemake-qiime-edna.git
 # specific tag
-git clone --depth=1 --branch 'v1.51' https://dpidave@bitbucket.org/dpi_data_analytics/snakemake-qiime-edna.git
+git clone --depth=1 --branch 'v1.0' https://dpidave@bitbucket.org/dpi_data_analytics/snakemake-qiime-edna2.git
 
 echo "install the conda env"
-cd snakemake-qiime-edna
+cd snakemake-qiime-edna2
 
-conda env create -f env/qiime2-2023.2-snakemake-py38-linux-conda.yml
+conda env create -f env/qiime2-2023.5-snakemake-py38-linux-conda.yml

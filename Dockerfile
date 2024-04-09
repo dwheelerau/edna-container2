@@ -16,7 +16,7 @@ MAINTAINER Dave Wheeler NSWDPI
 
 # Set up ubuntu dependencies
 RUN apt-get update -y && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata vim wget zip git nano build-essential curl libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 ca-certificates pandoc && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata vim wget zip git nano build-essential curl libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 ca-certificates pandoc ncbi-blast+ && \
   rm -rf /var/lib/apt/lists/*
 
 ###### 
@@ -30,10 +30,10 @@ COPY . .
 # make boot script runable
 #RUN chmod +x boot.sh
 
-# clone the repo
-RUN git clone --depth=1 --branch 'v1.51' https://dpidave@bitbucket.org/dpi_data_analytics/snakemake-qiime-edna.git
+# clone the repo v1
+RUN git clone --depth=1 --branch 'v1.0' https://dpidave@bitbucket.org/dpi_data_analytics/snakemake-qiime-edna2.git
 
-RUN conda env create -f snakemake-qiime-edna/env/qiime2-2023.2-snakemake-py38-linux-conda.yml
+RUN conda env create -f snakemake-qiime-edna2/env/qiime2-2023.5-snakemake-py38-linux-conda.yml
 
 RUN echo "source activate snakemake-qiime2" >> ~/.bashrc
 ENV PATH /opt/conda/envs/snakemake-qiime2/bin:$PATH
