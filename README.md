@@ -17,7 +17,8 @@
 ## Introduction
 A Docker image containing a eDNA pipeline2 based on
 [QIIME2](https://qiime2.org/). The pipeline is controlled via flask GUI that runs
-in the users browser.   
+in the users browser. This new version of the original pipeline includes a blastn search as 
+well to provide additional taxonomic information.  
 
 **The advantages of the pipeline are:**  
 - simple to setup and run using point and click with a browser based GUI
@@ -28,7 +29,7 @@ in the users browser.
 - rarefaction and taxonomic barplots are generated that can be viewed using the [QIIME viewer](https://view.qiime2.org/) (drag and drop)
 - A PDF report is generated containing QC plots and important information about the ASV generation so that QC parameters can be optimised 
 
-The pipeline can also be used without Docker as described at this [repo](https://bitbucket.org/dpi_data_analytics/snakemake-qiime-edna/src/master/).  
+The pipeline can also be used without Docker as described at this [repo](https://dpidave@bitbucket.org/dpi_data_analytics/snakemake-qiime-edna2.git).  
 
 ## Running the image in a container on Windows
 Ensure that the Docker-desktop app is installed on your windows computer. The
