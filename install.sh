@@ -8,16 +8,24 @@ sed -i "s/5000/$1/" app.py
 grep "port" app.py
 chmod +x app.py
 
+# fix up paths in desktop app file
+sed -i "s|/home/wheeled/projects/202308mduncan/edna-container|$PWD|" eDNA-pipeline
+sed -i "s|wheeled|$USER|" eDNA-pipeline
+
+# fix desktop shortcut paths in two places ie g
+sed -i "s|/home/wheeled/projects/202308mduncan/edna-container|$PWD|g" eDNA2.desktop
+cp eDNA2.desktop ~/Desktop/
+
 echo "clone the main run scripts and env file"
 # specific tag
-git clone --depth=1 --branch 'v1.0' https://dpidave@bitbucket.org/dpi_data_analytics/snakemake-qiime-edna2.git
+git clone --depth=1 --branch 'v1.1' https://dpidave@bitbucket.org/dpi_data_analytics/snakemake-qiime-edna2.git
 
 echo "install the conda env"
 cd snakemake-qiime-edna2
 
 # fix the name issue in version 1 and rescript issues
-sed -i 's|/home/wheeled/miniconda3/envs/snakemake-qiime2|eDNA-app2|' env/qiime2-2023.5-snakemake-py38-linux-conda.yml
-sed -i 's|- rescript==2023.11.0.dev0+45.g51df26b||' env/qiime2-2023.5-snakemake-py38-linux-conda.yml
+#sed -i 's|/home/wheeled/miniconda3/envs/snakemake-qiime2|eDNA-app2|' env/qiime2-2023.5-snakemake-py38-linux-conda.yml
+sed -i "s|wheeled|$USER|g" config.yaml
 
 mamba env create -f env/qiime2-2023.5-snakemake-py38-linux-conda.yml
 
