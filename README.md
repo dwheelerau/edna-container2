@@ -8,7 +8,8 @@
    * [The taxonomic database  ](#the-taxonomic-database)
    * [Running the pipeline using terminal commands (Windows/Linux)  ](#running-the-pipeline-using-terminal-commands-windowslinux)
    * [Running the image in a container on Linux](#running-the-image-in-a-container-on-linux)
-   * [Building the latest version of the pipeline](#building-the-latest-version-of-the-pipeline)
+   * [Building the latest version of the pipeline using Docker](#building-the-latest-version-of-the-pipeline)
+   * [Install without Docker on a Linux machine](#linux-install-without-docker)
    * [Trouble shooting  ](#trouble-shooting)
    * [ToDo](#todo)
 
@@ -230,6 +231,22 @@ cd edna-contained
 sudo docker build -f Dockerfile . -t dwheelerau/edna:edna
 ```
 Once the image is stored on your computer the `docker run` command can be used to run the app.
+
+## Linux install without Docker  
+An install script is provided that will clone the eDNA-container app repo and install
+dependencies.  The script requires that you have the 
+[Mamba](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html) installed.
+If you would prefer to use conda replace the mamba calls in the script ie 
+
+```
+sed -i 's/mamba/conda/g' install.sh
+```
+The script takes a number that will be the port used to display the browser
+based GUI on local host. A common port to use is `8181`, as shown below.  
+
+```
+bash install.sh 8181
+```
 
 ## Trouble shooting  
 **Key outputs are not included in the ZIP file?**
