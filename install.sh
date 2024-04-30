@@ -18,7 +18,7 @@ cp eDNA2.desktop ~/Desktop/
 
 echo "clone the main run scripts and env file"
 # specific tag
-git clone --depth=1 --branch 'v1.2' https://dpidave@bitbucket.org/dpi_data_analytics/snakemake-qiime-edna2.git
+git clone --depth=1 --branch 'v1.3' https://dpidave@bitbucket.org/dpi_data_analytics/snakemake-qiime-edna2.git
 
 echo "install the conda env"
 cd snakemake-qiime-edna2
