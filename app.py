@@ -12,11 +12,11 @@ import codecs
 
 # setup the qiime folder structure and remove any old runs
 def cleanup():
-    snakemake_clean_cmd = 'snakemake --cores all --snakefile snakemake-qiime-edna/Snakefile --directory ./snakemake-qiime-edna/ clean'.split()
+    snakemake_clean_cmd = 'snakemake --cores all --snakefile snakemake-qiime-edna2/Snakefile --directory ./snakemake-qiime-edna2/ clean'.split()
     subprocess.run(snakemake_clean_cmd, shell=False)
 
 def setup():
-    snakemake_setup_cmd = 'snakemake --cores all --snakefile snakemake-qiime-edna/Snakefile --directory ./snakemake-qiime-edna/ setup'.split()
+    snakemake_setup_cmd = 'snakemake --cores all --snakefile snakemake-qiime-edna2/Snakefile --directory ./snakemake-qiime-edna2/ setup'.split()
     subprocess.run(snakemake_setup_cmd, shell=False)
 
 def runner():
@@ -26,9 +26,9 @@ def runner():
 
 
 # Setting up Flask
-FASTQ_FOLDER = os.path.join(os.getcwd(), 'snakemake-qiime-edna','fastq_data')
-RUN_LOG_FILE = os.path.join(os.getcwd(), 'snakemake-qiime-edna','logs', 'runlog.txt')
-DATABASE_FOLDER = os.path.join(os.getcwd(), 'snakemake-qiime-edna', 'database',
+FASTQ_FOLDER = os.path.join(os.getcwd(), 'snakemake-qiime-edna2','fastq_data')
+RUN_LOG_FILE = os.path.join(os.getcwd(), 'snakemake-qiime-edna2','logs', 'runlog.txt')
+DATABASE_FOLDER = os.path.join(os.getcwd(), 'snakemake-qiime-edna2', 'database',
                                'qiime2-qza')
 STATIC_FOLDER = os.path.join(os.getcwd(), 'static')
 print(FASTQ_FOLDER)
@@ -86,10 +86,10 @@ def edit_config():
                 'classifier':dst,
                 }
 
-        with open('./snakemake-qiime-edna/config-template.yaml') as rf:
+        with open('./snakemake-qiime-edna2/config-template.yaml') as rf:
             template = Template(rf.read(), trim_blocks=True)
         render_file = template.render(data)
-        outfile = codecs.open('./snakemake-qiime-edna/config.yaml', 'w', 'utf-8')
+        outfile = codecs.open('./snakemake-qiime-edna2/config.yaml', 'w', 'utf-8')
         outfile.write(render_file)
         outfile.close()
         # goto the pipeline running page
@@ -100,7 +100,7 @@ def edit_config():
 # done
 @app.route('/done')
 def done():
-    f_path = Path("./snakemake-qiime-edna/final_results/final-report.pdf")
+    f_path = Path("./snakemake-qiime-edna2/final_results/final-report.pdf")
 
     if f_path.is_file():
         return render_template('done.html')
@@ -113,9 +113,9 @@ def running():
 
 @app.route('/pipeline')
 def pipeline():
-    snakemake_run_cmd = 'snakemake --cores all --snakefile snakemake-qiime-edna/Snakefile --directory ./snakemake-qiime-edna/ all'.split()
+    snakemake_run_cmd = 'snakemake --cores all --snakefile snakemake-qiime-edna2/Snakefile --directory ./snakemake-qiime-edna2/ all'.split()
     subprocess.run(snakemake_run_cmd, shell=False)
-    zip_cmd = 'zip -FSr static/results.zip snakemake-qiime-edna'.split()
+    zip_cmd = 'zip -FSr static/results.zip snakemake-qiime-edna2'.split()
     subprocess.run(zip_cmd, shell=False)
     return "done running"
 
