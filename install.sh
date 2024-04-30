@@ -1,6 +1,6 @@
 #!/bin/bash
-echo "clone the GUI repo used by docker"
-git clone https://github.com/dwheelerau/edna-container2.git
+#echo "clone the GUI repo used by docker"
+#git clone https://github.com/dwheelerau/edna-container2.git
 
 echo "changing the port number to $1"
 cd edna-container2
