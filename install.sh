@@ -3,7 +3,7 @@
 #git clone https://github.com/dwheelerau/edna-container2.git
 
 echo "changing the port number to $1"
-cd edna-container2
+#cd edna-container2
 sed -i "s/5000/$1/" app.py
 grep "port" app.py
 chmod +x app.py
