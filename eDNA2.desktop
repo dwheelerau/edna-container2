@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=eDNA-app
+Name=eDNA-app2
 Exec=/home/wheeled/projects/202308mduncan/edna-container/eDNA-pipeline
 Terminal=true
 Type=Application
