@@ -11,26 +11,37 @@ from jinja2 import Template
 import codecs
 
 # setup the qiime folder structure and remove any old runs
-def cleanup():
-    snakemake_clean_cmd = 'snakemake --cores all --snakefile snakemake-qiime-edna2/Snakefile --directory ./snakemake-qiime-edna2/ clean'.split()
+def cleanup(script_path):
+    print('cleanup!')
+    snakemake_clean_cmd = 'snakemake --cores all --snakefile %s/snakemake-qiime-edna2/Snakefile --directory %s/snakemake-qiime-edna2/ clean'%(script_path,script_path)
+    snakemake_clean_cmd = snakemake_clean_cmd.split()
     subprocess.run(snakemake_clean_cmd, shell=False)
 
-def setup():
-    snakemake_setup_cmd = 'snakemake --cores all --snakefile snakemake-qiime-edna2/Snakefile --directory ./snakemake-qiime-edna2/ setup'.split()
+def setup(script_path):
+    print('setup!')
+    snakemake_setup_cmd = 'snakemake --cores all --snakefile %s/snakemake-qiime-edna2/Snakefile --directory %s/snakemake-qiime-edna2/ setup'%(script_path,script_path)
+    snakemake_setup_cmd = snakemake_setup_cmd.split()
     subprocess.run(snakemake_setup_cmd, shell=False)
 
 def runner():
-    print("running")
+    print("running!")
     time.sleep(10)
     return 1
 
 
 # Setting up Flask
-FASTQ_FOLDER = os.path.join(os.getcwd(), 'snakemake-qiime-edna2','fastq_data')
-RUN_LOG_FILE = os.path.join(os.getcwd(), 'snakemake-qiime-edna2','logs', 'runlog.txt')
-DATABASE_FOLDER = os.path.join(os.getcwd(), 'snakemake-qiime-edna2', 'database',
+script_path = os.path.abspath(os.path.dirname(__file__)) #os.path.realpath(__file__)
+#FASTQ_FOLDER = os.path.join(os.getcwd(), 'snakemake-qiime-edna2','fastq_data')
+FASTQ_FOLDER = os.path.join(script_path, 'snakemake-qiime-edna2','fastq_data')
+#RUN_LOG_FILE = os.path.join(os.getcwd(), 'snakemake-qiime-edna2','logs', 'runlog.txt')
+RUN_LOG_FILE = os.path.join(script_path, 'snakemake-qiime-edna2','logs', 'runlog.txt')
+#DATABASE_FOLDER = os.path.join(os.getcwd(), 'snakemake-qiime-edna2', 'database',
+#                               'qiime2-qza')
+DATABASE_FOLDER = os.path.join(script_path, 'snakemake-qiime-edna2', 'database',
                                'qiime2-qza')
-STATIC_FOLDER = os.path.join(os.getcwd(), 'static')
+
+#STATIC_FOLDER = os.path.join(os.getcwd(), 'static')
+STATIC_FOLDER = os.path.join(script_path, 'static')
 print(FASTQ_FOLDER)
 
 app = Flask(__name__, static_url_path=STATIC_FOLDER, static_folder=STATIC_FOLDER)
@@ -40,9 +51,9 @@ app.secret_key = "secret_key"
 @app.route('/')
 def index():
     # remove any old data
-    cleanup()
+    cleanup(script_path)
     # setup dir structure
-    setup()
+    setup(script_path)
     return render_template('index.html')
 
 @app.route('/infer', methods=['POST'])
@@ -53,6 +64,8 @@ def upload_image():
         for file in file_list:
             filename = os.path.basename(file.filename)
             dst = os.path.join(FASTQ_FOLDER, filename)
+            print(dst)
+            print(dst)
             file.save(dst)
         return redirect(url_for('edit_config'))
 
@@ -85,11 +98,12 @@ def edit_config():
                 'chimera':request.form['chimera'],
                 'classifier':dst,
                 }
-
-        with open('./snakemake-qiime-edna2/config-template.yaml') as rf:
+        config_path = script_path + '/snakemake-qiime-edna2/config-template.yaml'
+        with open(config_path) as rf:
             template = Template(rf.read(), trim_blocks=True)
         render_file = template.render(data)
-        outfile = codecs.open('./snakemake-qiime-edna2/config.yaml', 'w', 'utf-8')
+        config_out_path = script_path + '/snakemake-qiime-edna2/config.yaml'
+        outfile = codecs.open(config_out_path, 'w', 'utf-8')
         outfile.write(render_file)
         outfile.close()
         # goto the pipeline running page
@@ -100,7 +114,7 @@ def edit_config():
 # done
 @app.route('/done')
 def done():
-    f_path = Path("./snakemake-qiime-edna2/final_results/final-report.pdf")
+    f_path = Path("%s/snakemake-qiime-edna2/final_results/final-report.pdf"%(script_path))
 
     if f_path.is_file():
         return render_template('done.html')
@@ -113,9 +127,11 @@ def running():
 
 @app.route('/pipeline')
 def pipeline():
-    snakemake_run_cmd = 'snakemake --cores all --snakefile snakemake-qiime-edna2/Snakefile --directory ./snakemake-qiime-edna2/ all'.split()
+    snakemake_run_cmd = 'snakemake --cores all --snakefile %s/snakemake-qiime-edna2/Snakefile --directory %s/snakemake-qiime-edna2/ all'%(script_path, script_path)
+    snakemake_run_cmd = snakemake_run_cmd.split()
     subprocess.run(snakemake_run_cmd, shell=False)
-    zip_cmd = 'zip -FSr static/results.zip snakemake-qiime-edna2'.split()
+    zip_cmd = 'zip -FSr %s/static/results.zip %s/snakemake-qiime-edna2'%(script_path,script_path)
+    zip_cmd = zip_cmd.split()
     subprocess.run(zip_cmd, shell=False)
     return "done running"
 
