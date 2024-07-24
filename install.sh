@@ -25,7 +25,7 @@ cd snakemake-qiime-edna2
 
 # fix the name issue in version 1 and rescript issues
 #sed -i 's|/home/wheeled/miniconda3/envs/snakemake-qiime2|eDNA-app2|' env/qiime2-2023.5-snakemake-py38-linux-conda.yml
-sed -i "s|wheeled|$USER|g" config.yaml
+sed -i "s|wheeled|$USER|g" config-template.yaml
 
 mamba env create -f env/qiime2-2023.5-snakemake-py38-linux-conda.yml
 
